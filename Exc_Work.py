@@ -4,14 +4,16 @@ from PyQt5.QtWidgets import QMessageBox
 
 def pusk_but_click(articul, number, check):
 
-    if (len(articul) == 3 or len(articul) == 7 or len(articul) == 6) and number != '':
-
-        if check == 0:
+    if (len(articul) == 3 or len(articul) == 7 or len(articul) == 6 or len(articul) == 12) and number != '':
+        art = ''
+        if check == 1:
             if len(articul) == 7:
                 art = articul[0:3]
+                print(art)
             elif len(articul) == 12:
-                art = articul[]
-            what_name(art, int(number))
+                art = articul[0:7]
+            numlist, namlist, artlist = what_name2(art, int(number))
+            return numlist, namlist, artlist
         elif check == 1:
             numlist, namlist, artlist = what_name2(articul, int(number))
             return numlist, namlist, artlist
@@ -55,7 +57,6 @@ def what_name2(art, number):
     numlist = []
     for i in percentlist:
         numlist.append(round(i*number))
-
     if sum(numlist) != number:
         number2 = number - sum(numlist)
         for i in range(number2):
@@ -79,7 +80,6 @@ def create(row, filename):
 
     for i in row:
         ws.append(i)
-
 
     wb.save(filename)
 

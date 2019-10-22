@@ -3,9 +3,134 @@
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+from PyQt5 import uic
 from PyQt5 import QtCore
 import Parameters as Parameters
 import Doca as Doca
+import SendEmail
+
+
+class SendEmailWindow(QWidget):
+
+    def __init__(self):
+
+        super(QWidget, self).__init__()
+
+        self.setFont(QFont('Century Gothic', 10))
+        self.setWindowTitle('Отправка письма')
+
+        windowW1 = Parameters.ParameterSize().ww()
+        windowH1 = Parameters.ParameterSize().wh()
+
+        button_color = Parameters.Color().whatcolor()
+        self.setWindowIcon(QIcon('logo.png'))
+        self.setFixedSize(windowW1 * 0.2395833333333333, windowH1 * 0.4259259259259259)
+
+        log_pas = QHBoxLayout()
+        btns = QHBoxLayout()
+        vbox = QVBoxLayout()
+
+        self.uremail_line = QLineEdit()
+        self.uremail_line.setPlaceholderText('Введите ваш @mail')
+        self.urpassword_line = QLineEdit()
+        self.urpassword_line.setPlaceholderText('Введите ваш пароль')
+        self.urpassword_line.setEchoMode(QLineEdit.Password)
+        self.address_line = QLineEdit()
+        self.address_line.setPlaceholderText('Введите @mail получателя')
+        btn_send = QPushButton('Отправить', self)
+
+        btn_send.setStyleSheet("background-color: {0}".format(button_color))
+
+        log_pas.addWidget(self.uremail_line)
+        log_pas.addWidget(self.urpassword_line)
+        btns.addWidget(btn_send)
+
+        vbox.addLayout(log_pas)
+        vbox.addWidget(self.address_line, alignment=QtCore.Qt.AlignHCenter)
+        vbox.addLayout(btns)
+
+        self.setLayout(vbox)
+
+        btn_send.clicked.connect(self.send)
+
+    def send(self):
+
+        with open('link.txt', 'r') as f:
+            link = f.read()
+
+        uremail = self.uremail_line.text()
+        urpassword = self.urpassword_line.text()
+        address = self.address_line.text()
+
+        result = SendEmail.send_kom(link, uremail, urpassword, address)
+
+        if result == QMessageBox.Ok:
+
+            self.close()
+
+        else:
+
+            self.close()
+
+
+class Kom3(QWidget):
+
+    def __init__(self):
+
+        super(QWidget, self).__init__()
+        self.link_data = QtCore.pyqtSignal(str)
+
+        self.setFont(QFont('Century Gothic', 10))
+        self.setWindowIcon(QIcon('logo.png'))
+        self.setWindowTitle("Коммерческое предложение")
+
+        windowW1 = Parameters.ParameterSize().ww()
+        windowH1 = Parameters.ParameterSize().wh()
+
+        button_color = Parameters.Color().whatcolor()
+        self.setFixedSize(windowW1 * 0.5, windowH1 * 0.5)
+
+        ets1 = QPushButton('ЭТС Цемент', self)
+        ets1.setStyleSheet("background-color: {0}".format(button_color))
+        ets1.clicked.connect(self.ets1)
+
+        ets2 = QPushButton('ЭТС Бесцемент. с Мод. Шейкой', self)
+        ets2.setStyleSheet("background-color: {0}".format(button_color))
+        ets2.clicked.connect(self.ets2)
+
+        ets3 = QPushButton('ЭТС Бесцемент. Моно.', self)
+        ets3.setStyleSheet("background-color: {0}".format(button_color))
+        ets3.clicked.connect(self.ets3)
+
+        vbox = QVBoxLayout()
+        vbox.addWidget(ets1)
+        vbox.addWidget(ets2)
+        vbox.addWidget(ets3)
+        self.setLayout(vbox)
+
+
+    def ets1(self):
+        link = 'кп_3.PDF'
+        with open('link.txt', 'w') as f:
+            f.write(link)
+
+        self.et1 = SendEmailWindow()
+        self.et1.show()
+
+
+    def ets2(self):
+        link = 'кп_1.PDF'
+        with open('link.txt', 'w') as f:
+            f.write(link)
+        self.et2 = SendEmailWindow()
+        self.et2.show()
+
+    def ets3(self):
+        link = 'кп_3.PDF'
+        with open('link.txt', 'w') as f:
+            f.write(link)
+        self.et3 = SendEmailWindow()
+        self.et3.show()
 
 
 class DocWin(QWidget):
@@ -178,6 +303,7 @@ class FormWidget1(QWidget):
 
         com_but = QPushButton("Коммерческое предложение", self)
         com_but.setStyleSheet("background-color: {0}".format(self.button_color))
+        com_but.clicked.connect(self.three_kom)
 
         doc_but = QPushButton("Одноразовый договор", self)
         doc_but.setStyleSheet("background-color: {0}".format(self.button_color))
@@ -192,3 +318,7 @@ class FormWidget1(QWidget):
 
         self.doc = DocWin()
         self.doc.show()
+
+    def three_kom(self):
+        self.kom = Kom3()
+        self.kom.show()
