@@ -1,6 +1,9 @@
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
 
+
+# модуль пользовательских настроек
+
+# настройки разрешени€ экрана
 class ParameterSize():
 
         def __init__(self):
@@ -15,6 +18,8 @@ class ParameterSize():
             return self.window_height
 
 
+# настройки цвета кнопок
+# второе по бесполезности мое создание в этом проекте... сразу после самого проекта, разумеетс€
 class Color():
 
         def __init__(self):

@@ -10,16 +10,20 @@ from email.header import Header
 import email.mime.application
 
 
+# модуль отправки писем
+
+# функция отправки письма
 def send_letter(uremail, urpassword, address):
 
+    # читаем из ранее созданного файла тексты для отправки
     with open("Text.txt", "r", encoding='windows-1251') as textfile:
         m = textfile.read()
 
     with open("Title.txt", "r", encoding='windows-1251') as titlefile:
         title = titlefile.readline()
 
+    # наполнение письма
     russian = 'windows-1251'
-
     msg = MIMEMultipart()
     msg["Subject"] = Header(title, russian)
     msg["From"] = Header(uremail)
@@ -30,17 +34,28 @@ def send_letter(uremail, urpassword, address):
 
     check = uremail.find("@")
 
+    '''
+    Далее идут танцы с бубном и доменными именами. Они идентичны за исключением портов, доменов и сервисов, 
+    которые обслуживают ту или иную почту. Для экономии времени советую посмотреть только один пример, приведенный ниже
+    '''
+
+    # если имеем дело с доменом яндекса
     if uremail[check+1:] == "yandex.ru":
+        # подключаемся к серверам яндекса
         mail_lib = smtplib.SMTP_SSL('smtp.yandex.ru', 465)
         mail_lib.ehlo()
 
         try:
+            # авторизуемся
             mail_lib.login(uremail[:check], urpassword)
             mail_lib.auth_plain()
+            # отправляем письмо
             mail_lib.sendmail(uremail, address, msg.as_string())
 
+            # выходим из почты
             mail_lib.quit()
 
+            # окно, оповещающее об успешной отправке
             welldone = QMessageBox()
             welldone.setIcon(QMessageBox.Information)
             welldone.setText("Отправка прошла успешно.")
@@ -51,6 +66,7 @@ def send_letter(uremail, urpassword, address):
 
         except:
 
+            # окно, оповещающее о неудачной отправке
             warning = QMessageBox()
             warning.setIcon(QMessageBox.Critical)
             warning.setText("Возникла ошибка отправки. \nПроверьте правильность введенных вами данных.")
@@ -126,6 +142,7 @@ def send_letter(uremail, urpassword, address):
         return rslt
 
 
+# отправка коммерческого предложения, все абсолютно так же, как и с обычным письмом, но добавляется документ формата PDF
 def send_kom(link, uremail, urpassword, address):
     russian = 'windows-1251'
 

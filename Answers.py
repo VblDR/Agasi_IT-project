@@ -5,9 +5,9 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import Parameters as Parameters
 import Answers1 as ProgramBody
-from PyQt5 import QtCore
 
 
+# Основное окно шаблонных ответов
 class FormWidget(QWidget):
 
     def __init__(self, parent):
@@ -15,15 +15,14 @@ class FormWidget(QWidget):
         super(FormWidget, self).__init__(parent)
 
         self.setFont(QFont('Century Gothic', 15))
-
         self.button_color = Parameters.Color().whatcolor()
         self.setWindowIcon(QIcon('logo.png'))
         vbox = QVBoxLayout()
         vbox2 = QVBoxLayout()
         vbox3 = QVBoxLayout()
-
         hbox = QHBoxLayout()
 
+        # Далее идут разделы, по которым распределяются ответы
         topleft = QPushButton("Вопросы по заказу продукции", self)
         topleft.setStyleSheet("background-color: {0}".format(self.button_color))
         topleft.clicked.connect(self.show_tema1)
@@ -48,6 +47,7 @@ class FormWidget(QWidget):
         bottomright.setStyleSheet("background-color: {0}".format(self.button_color))
         bottomright.clicked.connect(self.show_tema6)
 
+        # Компоновка разделов в окне
         vbox.addWidget(topleft, stretch=10)
         vbox.addWidget(bottomleft, stretch=10)
 
@@ -63,6 +63,8 @@ class FormWidget(QWidget):
 
         self.setLayout(hbox)
 
+
+# Вызов окон разделов
     def show_tema1(self):
         self.w1 = ProgramBody.Ans1()
         self.w1.show()

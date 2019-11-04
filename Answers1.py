@@ -9,6 +9,7 @@ import SendEmail as SendEmail
 import pyperclip
 
 
+# Класс кнопки для копирования ответа (часто используется, поэтоу был создан отдельный класс)
 class CopyButton():
 
     def button(self):
@@ -19,6 +20,7 @@ class CopyButton():
         return copy_button
 
 
+# Класс кнопки для отправки письма (часто используется, поэтоу был создан отдельный класс)
 class SendEmailButton():
 
     def button(self):
@@ -29,6 +31,7 @@ class SendEmailButton():
         return send_button
 
 
+# Класс окна отправки письма
 class SendEmailWindow(QWidget):
 
     def __init__(self):
@@ -36,29 +39,29 @@ class SendEmailWindow(QWidget):
         super(QWidget, self).__init__()
 
         self.setFont(QFont('Century Gothic', 10))
-
         self.setWindowTitle('Отправка письма')
-
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
-
+        windoww1 = Parameters.ParameterSize().ww()
+        windowh1 = Parameters.ParameterSize().wh()
         button_color = Parameters.Color().whatcolor()
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.2395833333333333, windowH1 * 0.4259259259259259)
+        self.setFixedSize(windoww1 * 0.2395833333333333, windowh1 * 0.4259259259259259)
 
         log_pas = QHBoxLayout()
         btns = QHBoxLayout()
         vbox = QVBoxLayout()
 
+        # поле ввода почты
         self.uremail_line = QLineEdit()
         self.uremail_line.setPlaceholderText('Введите ваш @mail')
+        # поле ввода пароля
         self.urpassword_line = QLineEdit()
         self.urpassword_line.setPlaceholderText('Введите ваш пароль')
         self.urpassword_line.setEchoMode(QLineEdit.Password)
+        # поле ввода почты адресата
         self.address_line = QLineEdit()
         self.address_line.setPlaceholderText('Введите @mail получателя')
+        # кнопка отправки
         btn_send = QPushButton('Отправить', self)
-
         btn_send.setStyleSheet("background-color: {0}".format(button_color))
 
         log_pas.addWidget(self.uremail_line)
@@ -90,23 +93,32 @@ class SendEmailWindow(QWidget):
             self.close()
 
 
+'''
+
+Далее идут шаблонные ответы. Они занимают порядка 2000 строк, поэтому рекомендую не тратить время на чтение их всех,
+так как структура каждого из них идентична. Предлагаю рассмотреть реализацию одного из овтетов на примере ниже.
+
+'''
+
+
+# Класс первого раздела
 class Ans1(QWidget):
 
     def __init__(self):
 
         super(QWidget, self).__init__()
 
+        # Настрйоки интерфейса окна
         button_color = Parameters.Color().whatcolor()
-
         self.setFont(QFont('Century Gothic', 10))
-
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
-
+        windoww1 = Parameters.ParameterSize().ww()
+        windowh1 = Parameters.ParameterSize().wh()
         self.setWindowTitle('Вопросы по заказу продукции')
-
-        self.setFixedSize(windowW1*0.625, windowH1*0.7407407407407407)
+        self.setFixedSize(windoww1*0.625, windowh1*0.7407407407407407)
         self.setWindowIcon(QIcon('logo.png'))
+
+        # Далее идут подразделы этой тематики, реализованные кнопками,
+        # нажав на которые, пользователь попадет в этот подраздел
         topleft1 = QPushButton("Обращается новый партнёр "
                                "\nи хочет узнать, каким образом "
                                "\nможно приобрести продукцию Остеомеда.", self)
@@ -138,6 +150,7 @@ class Ans1(QWidget):
         topleft5.setStyleSheet("background-color: {0}".format(button_color))
         topleft5.clicked.connect(self.show_tema11)
 
+        # Компануем подразделы в окне
         vbox = QVBoxLayout()
         vbox.addWidget(topleft1)
         vbox.addWidget(topleft2)
@@ -153,6 +166,7 @@ class Ans1(QWidget):
 
         self.setLayout(hbox)
 
+    # Функции вызова окон с ответами
     def show_tema13(self):
         self.w11 = Tema13()
         self.w11.show()
@@ -162,7 +176,7 @@ class Ans1(QWidget):
         self.w12.show()
 
     def show_tema18(self):
-        self.w13 = Tema18()
+        w13 = Tema18()
         self.w13.show()
 
     def show_tema12(self):
@@ -174,23 +188,23 @@ class Ans1(QWidget):
         self.w15.show()
 
 
+# Ответ на первый подраздел
 class Tema13(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
-
         super(QWidget, self).__init__()
 
+        # Настрйоки интерфейса окна
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
         self.title = 'Приобретение продукции'
-
         self.setWindowIcon(QIcon('logo.png'))
         self.setWindowTitle(self.title)
         self.setFont(QFont('Century Gothic', 10))
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
-
+        # Ответ
         self.txt = "Последовательность действий следующая:" \
                    "\n1) Необходимо уточнить название или регион конечного клиента." \
                    "\n2) Перенаправить к менеджеру по указанному региону, что бы менеджер решил:" \
@@ -205,12 +219,15 @@ class Tema13(QWidget):
 
         answer1_1 = QLabel(self.txt, self)
 
+        # Кнопка отправки
         btn = SendEmailButton.button(self)
         btn.clicked.connect(self.show_send)
 
+        # Кнопка копирования
         copy_button = CopyButton.button(self)
         copy_button.clicked.connect(self.copy)
 
+        # Компануем объекты в окне
         hbox = QHBoxLayout()
         hbox.addWidget(btn)
         hbox.addWidget(copy_button)
@@ -221,19 +238,23 @@ class Tema13(QWidget):
 
         self.setLayout(vbox)
 
+    # функция подготовки данных для отправки письма
     def show_send(self):
 
+        # Вызов окна отправки для ввода реквизитов
         self.send_mail = SendEmailWindow()
         self.send_mail.show()
 
+        # Записываем ответ во временный файл
         with open("Text.txt", "w", encoding='windows-1251') as textfile:
 
             textfile.write(self.txt)
-
+        # Записываем подраздел во временный файл
         with open("Title.txt", "w", encoding='windows-1251') as textfile:
 
             textfile.write(self.title)
 
+    # Функция копирования Ответа
     def copy(self):
 
         pyperclip.copy(self.txt)
@@ -243,8 +264,8 @@ class Tema14(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -255,7 +276,7 @@ class Tema14(QWidget):
 
         self.setWindowTitle(self.title)
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Последовательность действий следующая:' \
                    '\n1) Стараемся предложить все-таки то,' \
@@ -312,8 +333,8 @@ class Tema18(QWidget):
 
         button_color = Parameters.Color().whatcolor()
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
         self.setWindowIcon(QIcon('logo.png'))
@@ -321,7 +342,7 @@ class Tema18(QWidget):
 
         self.setWindowTitle('Заказ по телефону')
 
-        self.setFixedSize(windowW1 * 0.5208333333333333, windowH1 * 0.6481481481481481)
+        self.setFixedSize(window_w1 * 0.5208333333333333, window_h1 * 0.6481481481481481)
 
         topleft1 = QPushButton("Надёжный, проверенный партнёр и ситуация исключительной важности:", self)
         topleft1.setStyleSheet("background-color: {0}".format(button_color))
@@ -351,8 +372,8 @@ class Tema181(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -362,7 +383,7 @@ class Tema181(QWidget):
 
         self.setWindowTitle(self.title)
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Возможно исключение в виде заказа по телефону ' \
                    '\n(с одновременной трансляцией письма партнёру с указанием того, ' \
@@ -405,8 +426,8 @@ class Tema182(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -416,7 +437,7 @@ class Tema182(QWidget):
 
         self.setWindowTitle('Остальные случаи')
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Принятие заявки на продукцию по телефону не представляется возможным.'
         answer1_4 = QLabel(self.txt, self)
@@ -459,8 +480,8 @@ class Tema12(QWidget):
 
         button_color = Parameters.Color().whatcolor()
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -468,7 +489,7 @@ class Tema12(QWidget):
         self.setWindowIcon(QIcon('logo.png'))
         self.setWindowTitle('Срочная доставка')
 
-        self.setFixedSize(windowW1 * 0.5208333333333333, windowH1 * 0.6481481481481481)
+        self.setFixedSize(window_w1 * 0.5208333333333333, window_h1 * 0.6481481481481481)
 
         topleft1 = QPushButton("Товар есть на складе в г. Москва:", self)
         topleft1.setStyleSheet("background-color: {0}".format(button_color))
@@ -498,8 +519,8 @@ class Tema121(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -509,7 +530,7 @@ class Tema121(QWidget):
         self.setWindowIcon(QIcon('logo.png'))
         self.setWindowTitle(self.title)
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Срочная поставка можна при заказе до 15:00 и 100% оплате выставленного счёта.'
         answer1_4 = QLabel(self.txt, self)
@@ -550,8 +571,8 @@ class Tema122(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -561,7 +582,7 @@ class Tema122(QWidget):
         self.setWindowIcon(QIcon('logo.png'))
         self.setWindowTitle(self.title)
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Объяснить клиенту, что невозможно день-в-день доставить товар с производства в Москву.' \
                    '\nМинимальный срок доставки - воспользоваться услугами транспортной компании.'
@@ -602,12 +623,10 @@ class Tema11(QWidget):
 
     def __init__(self):
 
-        self.homepath = QtCore.QDir.homePath()
-
         button_color = Parameters.Color().whatcolor()
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -615,7 +634,7 @@ class Tema11(QWidget):
 
         self.setWindowTitle('Корректировки по счёту')
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.6481481481481481)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.6481481481481481)
 
         topleft1 = QPushButton("Заказ уже производится или произведён:", self)
         topleft1.setStyleSheet("background-color: {0}".format(button_color))
@@ -645,8 +664,8 @@ class Tema111(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -655,7 +674,7 @@ class Tema111(QWidget):
 
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Никаких корректировок уже быть не может. ' \
                    '\nПартнёр обязан забрать изготовленный для него товар.'
@@ -697,8 +716,8 @@ class Tema112(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
         self.setWindowIcon(QIcon('logo.png'))
@@ -706,7 +725,7 @@ class Tema112(QWidget):
         self.title = 'Заказ не передан на изготовление'
         self.setWindowTitle(self.title)
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Возможна оперативная корретировка заказа ' \
                    '\n(с обязательным уточнением информации по срокам передачи в производство в Рыбинске).'
@@ -748,8 +767,8 @@ class Ans2(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         button_color = Parameters.Color().whatcolor()
 
@@ -759,7 +778,7 @@ class Ans2(QWidget):
         self.setWindowIcon(QIcon('logo.png'))
         self.setWindowTitle('Вопросы по поставке продукции')
 
-        self.setFixedSize(windowW1 * 0.625, windowH1 * 0.7407407407407407)
+        self.setFixedSize(window_w1 * 0.625, window_h1 * 0.7407407407407407)
 
         topcenter1 = QPushButton("Становится известно о переносе "
                                  "\nсрока изготовления продукции в Рыбинске, "
@@ -820,8 +839,8 @@ class Tema8(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -830,7 +849,7 @@ class Tema8(QWidget):
         self.title = 'Перенос сроков изготовления'
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Последовательность действий следующая:' \
                    '\n 1) Связаться с партнёром, извиниться' \
@@ -885,8 +904,8 @@ class Tema9(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -895,7 +914,7 @@ class Tema9(QWidget):
         self.setWindowIcon(QIcon('logo.png'))
         self.setWindowTitle(self.title)
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Последовательность действий следующая:' \
                    '\n 1) Уточнить данную информацию для партнёра' \
@@ -950,8 +969,8 @@ class Tema10(QWidget):
 
         button_color = Parameters.Color().whatcolor()
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -959,7 +978,7 @@ class Tema10(QWidget):
         self.setWindowIcon(QIcon('logo.png'))
         self.setWindowTitle('Информация о задержке товара')
 
-        self.setFixedSize(windowW1 * 0.5208333333333333, windowH1 * 0.6481481481481481)
+        self.setFixedSize(window_w1 * 0.5208333333333333, window_h1 * 0.6481481481481481)
 
         topleft1 = QPushButton("Товар был оплачен партнёром на 100%, либо 50%/50% "
                                "\n(всё было оплачено ДО момента предполагаемой отгрузки)", self)
@@ -989,8 +1008,8 @@ class Tema101(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -999,7 +1018,7 @@ class Tema101(QWidget):
         self.title = 'Товар оплачен на 100% или 50% (До момента предполагаемой отгрузки)'
         self.setWindowTitle(self.title)
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Необходимо объяснить,' \
                    '\nчто была большая загруженность производства,' \
@@ -1046,8 +1065,8 @@ class Tema102(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -1055,7 +1074,7 @@ class Tema102(QWidget):
         self.title = 'Товар оплачен только на 50%'
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Чаще всего вторые 50% (отсрочку) не оплачивают,' \
                    '\nпока нет сообщения от КП о том,' \
@@ -1100,8 +1119,8 @@ class Tema6(QWidget):
 
         button_color = Parameters.Color().whatcolor()
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -1109,7 +1128,7 @@ class Tema6(QWidget):
         self.setWindowIcon(QIcon('logo.png'))
         self.setWindowTitle('Факт пересорта/ошибки на складе')
 
-        self.setFixedSize(windowW1 * 0.5208333333333333, windowH1 * 0.6481481481481481)
+        self.setFixedSize(window_w1 * 0.5208333333333333, window_h1 * 0.6481481481481481)
 
         topleft1 = QPushButton("Документы сделаны верно", self)
         topleft1.setStyleSheet("background-color: {0}".format(button_color))
@@ -1149,8 +1168,8 @@ class Tema61(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -1159,7 +1178,7 @@ class Tema61(QWidget):
         self.title = 'Документы верны'
         self.setWindowTitle(self.title)
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Просим со следующим забором груза привезти' \
                    '\nне верно отгруженный товар в московский офис' \
@@ -1205,8 +1224,8 @@ class Tema62(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -1215,7 +1234,7 @@ class Tema62(QWidget):
         self.title = 'Ошибка в документах'
         self.setWindowTitle(self.title)
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Делается корректировка в Заказе Покупателю,' \
                    '\nреализации (всех задействованных документах),' \
@@ -1259,8 +1278,8 @@ class Tema63(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
         self.setWindowIcon(QIcon('logo.png'))
@@ -1268,7 +1287,7 @@ class Tema63(QWidget):
         self.title = 'Ошибка в документах, товар отгружен неправильно'
         self.setWindowTitle(self.title)
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Делается корректировка в Заказе Покупателю,' \
                    '\nреализации (всех задействованных документах),' \
@@ -1316,8 +1335,8 @@ class Ans3(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         button_color = Parameters.Color().whatcolor()
         super(QWidget, self).__init__()
@@ -1326,7 +1345,7 @@ class Ans3(QWidget):
         self.setWindowIcon(QIcon('logo.png'))
         self.setWindowTitle('Вопросы по оплате')
 
-        self.setFixedSize(windowW1 * 0.625, windowH1 * 0.7407407407407407)
+        self.setFixedSize(window_w1 * 0.625, window_h1 * 0.7407407407407407)
 
         topcenter1 = QPushButton("У Партнёра есть просрочка оплаты по предыдущим счетам,"
                                  "\nон хочет продлить срок оплаты по ним"
@@ -1363,8 +1382,8 @@ class Tema1(QWidget):
 
         button_color = Parameters.Color().whatcolor()
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -1372,7 +1391,7 @@ class Tema1(QWidget):
         self.setWindowIcon(QIcon('logo.png'))
         self.setWindowTitle('Просрочка оплаты по прошлым счетам')
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.6481481481481481)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.6481481481481481)
 
         topleft1 = QPushButton("При сумме долга более 500 000 рублей", self)
         topleft1.setStyleSheet("background-color: {0}".format(button_color))
@@ -1390,20 +1409,20 @@ class Tema1(QWidget):
 
     def show_tema1_1(self):
 
-        self.w11 = Tema1_1()
+        self.w11 = TemA11()
         self.w11.show()
 
     def show_tema1_2(self):
-        self.w12 = Tema1_2()
+        self.w12 = TemA12()
         self.w12.show()
 
 
-class Tema1_1(QWidget):
+class TemA11(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -1411,7 +1430,7 @@ class Tema1_1(QWidget):
         self.title = 'Сумма долга более 500 000 рублей'
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Должна быть приостановка всех отгрузок до момента оплаты старых долгов.' \
                    '\nНа усмотрение КП (при срочной или сверх важной операции)' \
@@ -1449,12 +1468,12 @@ class Tema1_1(QWidget):
         pyperclip.copy(self.txt)
 
 
-class Tema1_2(QWidget):
+class TemA12(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -1463,7 +1482,7 @@ class Tema1_2(QWidget):
         self.title = 'Сумма долга менее 500 000 рублей'
         self.setWindowTitle(self.title)
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Партнёр может написать гарантийное письмо с точными сроками оплаты' \
                    '\n(в разумных пределах) и номерами счетов.' \
@@ -1504,8 +1523,8 @@ class Tema4(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -1513,7 +1532,7 @@ class Tema4(QWidget):
         self.title = 'Досрочная отгрузка'
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Несмотря на то, что из-за неоплаты старых счетов партнёр' \
                    '\nможет находится в «стоп-листе», оплаченный товар должен быть передан покупателю.' \
@@ -1556,8 +1575,8 @@ class Tema4(QWidget):
 class Ans4(QWidget):
 
     def __init__(self):
-            windowW1 = Parameters.ParameterSize().ww()
-            windowH1 = Parameters.ParameterSize().wh()
+            window_w1 = Parameters.ParameterSize().ww()
+            window_h1 = Parameters.ParameterSize().wh()
 
             button_color = Parameters.Color().whatcolor()
             super(QWidget, self).__init__()
@@ -1566,7 +1585,7 @@ class Ans4(QWidget):
             self.setWindowIcon(QIcon('logo.png'))
             self.setWindowTitle('Вопросы по подбору продукции')
 
-            self.setFixedSize(windowW1 * 0.625, windowH1 * 0.7407407407407407)
+            self.setFixedSize(window_w1 * 0.625, window_h1 * 0.7407407407407407)
 
             topcenter1 = QPushButton("Партнёр просит проконсультировать его относительно артикула продукции"
                                      "\n(например, озвучить длину штифта)"
@@ -1603,8 +1622,8 @@ class Tema15(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -1612,17 +1631,17 @@ class Tema15(QWidget):
         self.title = 'Совмещение с продукицей другого бренда'
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Последовательность действий следующая:' \
                    '\n 1) В первую очередь необходимо уточнить,' \
                    '\nс чем связана такая ситуация, почему необходимо совмещать продукцию.' \
-                   '\n 2) Уточнить у знающих людей (пр. Юра С., Леонид Р., Алексей Ш.) данной продукции' \
-                   '\n(это же касается и вопросов подходит ли чей-либо другой инструмент' \
-                   '\nи импланты к нашим имплантам и инструментам). ' \
+                   '\n 2) Уточнить ифнормацию по данной продукции у Главного Менеджера/Складовщика ' \
+                   '\n(это же касается и вопросов: подходит ли чей-либо другой инструмент ' \
+                   '\nи импланты к нашим имплантам и инструментам).' \
                    '\n 3) Можно сообщить, что товар более дорогих производителей (Синтез)' \
                    '\nможно использовать для прод. «Остеомед-М».' \
-                   '\nНо опять-таки единолично такую информацию лучше не предоставлять во избежание спорных ситуаций,' \
+                   '\nВНИМАНИЕ! Единолично такую информацию лучше не предоставлять во избежание спорных ситуаций,' \
                    '\nстоит запросить письменное подтверждение опытных коллег.'
         answer3_2 = QLabel(self.txt, self)
 
@@ -1661,8 +1680,8 @@ class Tema16(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -1670,7 +1689,7 @@ class Tema16(QWidget):
         self.title = 'Отгрузка до оплаты, имеется просрочка'
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Несмотря на то, что из-за неоплаты старых счетов партнёр может находится в «стоп-листе»,' \
                    '\nоплаченный товар должен быть передан покупателю.' \
@@ -1714,8 +1733,8 @@ class Ans5(QWidget):
 
     def __init__(self):
 
-            windowW1 = Parameters.ParameterSize().ww()
-            windowH1 = Parameters.ParameterSize().wh()
+            window_w1 = Parameters.ParameterSize().ww()
+            window_h1 = Parameters.ParameterSize().wh()
 
             button_color = Parameters.Color().whatcolor()
             super(QWidget, self).__init__()
@@ -1724,7 +1743,7 @@ class Ans5(QWidget):
             self.setWindowIcon(QIcon('logo.png'))
             self.setWindowTitle('Вопросы по аренде инструмента')
 
-            self.setFixedSize(windowW1 * 0.625, windowH1 * 0.7407407407407407)
+            self.setFixedSize(window_w1 * 0.625, window_h1 * 0.7407407407407407)
 
             topcenter1 = QPushButton("Партнёр хочет заказать продление аренды инструмента."
                                      "\nНо при этом у него есть долги по счетам/проблемы"
@@ -1737,9 +1756,9 @@ class Ans5(QWidget):
             topcenter2.setStyleSheet("background-color: {0}".format(button_color))
             topcenter2.clicked.connect(self.show_tema5)
 
-            topcenter3 = QPushButton("Партнёр сообщает, что с Леонидом было оговорено"
+            topcenter3 = QPushButton("Партнёр сообщает, что с Главным Менеджером было оговорено"
                                      "\nдобавление инструмента в счёт за импланты "
-                                     "\n(т.н. равномерное «размазывание» стоимости инструмента по всему счёту). ", self)
+                                     "\n(т.н. равномерное «размазывание» стоимости инструмента по всему счёту).", self)
             topcenter3.setStyleSheet("background-color: {0}".format(button_color))
             topcenter3.clicked.connect(self.show_tema20)
 
@@ -1771,15 +1790,15 @@ class Tema2(QWidget):
     def __init__(self):
             button_color = Parameters.Color().whatcolor()
 
-            windowW1 = Parameters.ParameterSize().ww()
-            windowH1 = Parameters.ParameterSize().wh()
+            window_w1 = Parameters.ParameterSize().ww()
+            window_h1 = Parameters.ParameterSize().wh()
 
             super(QWidget, self).__init__()
 
             self.setFont(QFont('Century Gothic', 10))
             self.setWindowTitle('Продление аренды при имеющихся долгах')
             self.setWindowIcon(QIcon('logo.png'))
-            self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.6481481481481481)
+            self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.6481481481481481)
 
             topleft1 = QPushButton("Если у партнёра имеются неиспользованные штифты для инструмента", self)
             topleft1.setStyleSheet("background-color: {0}".format(button_color))
@@ -1809,8 +1828,8 @@ class Tema21(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -1818,7 +1837,7 @@ class Tema21(QWidget):
         self.title = 'Есть неиспользованные штифты'
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Если Партнёр обладает неиспользованными штифтами,' \
                    '\nто продление инструмента можно согласовать. ' \
@@ -1860,8 +1879,8 @@ class Tema22(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -1869,7 +1888,7 @@ class Tema22(QWidget):
         self.title = 'Нет неиспользованных штифтов'
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Если Партнёр не обладает неиспользованными штифтами,' \
                    '\nто в продлении инструмента необходимо отказать.' \
@@ -1910,8 +1929,8 @@ class Tema5(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -1919,12 +1938,12 @@ class Tema5(QWidget):
         self.title = 'Срочно нужен инструмент, но его нет на складе'
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Последовательность действий следующая:' \
                    '\n 1) Уточнить в каких больницах/у каких дилеров Москвы' \
                    '\nнаходится необходимый инструмент' \
-                   '\n(поиск ведётся по дилерам и больницам с помощью инфо из 1С и по памяти).' \
+                   '\n(поиск ведётся по дилерам и больницам с помощью информации из 1С).' \
                    '\n 2) Попробовать согласовать его передачу на 1 срочную операцию.' \
                    '\n 3) В случае, если свободного инструмента нет,' \
                    '\nпопробовать подыскать аналог инструмента Синтеза и т.д.' \
@@ -1968,8 +1987,8 @@ class Tema20(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -1977,10 +1996,10 @@ class Tema20(QWidget):
         self.title = 'Добавление инструмента оговорено'
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Последовательность действий следующая:' \
-                   '\n 1) Необходимо написать письмо партнёру (Леонида в копию)' \
+                   '\n 1) Необходимо написать письмо партнёру (Главного Менеджера в копию)' \
                    '\nпо уточнению счёта на импланты' \
                    '\n(согласовать необходимое кол-во, артикулы) и комплектацию предполагаемого инструмента' \
                    '\n(комплектация выбирается КП из Ф/З и указывается в письме).' \
@@ -2026,8 +2045,8 @@ class Ans6(QWidget):
 
     def __init__(self):
 
-            windowW1 = Parameters.ParameterSize().ww()
-            windowH1 = Parameters.ParameterSize().wh()
+            window_w1 = Parameters.ParameterSize().ww()
+            window_h1 = Parameters.ParameterSize().wh()
 
             button_color = Parameters.Color().whatcolor()
             super(QWidget, self).__init__()
@@ -2036,14 +2055,14 @@ class Ans6(QWidget):
             self.setWindowIcon(QIcon('logo.png'))
             self.setWindowTitle('Прочие вопросы')
 
-            self.setFixedSize(windowW1 * 0.625, windowH1 * 0.7407407407407407)
+            self.setFixedSize(window_w1 * 0.625, window_h1 * 0.7407407407407407)
 
             topcenter1 = QPushButton("Партнёр просит уточнить, можно ли делать МРТ,"
                                      "\nхочет сертификат на разрешение МРТ исследования.", self)
             topcenter1.setStyleSheet("background-color: {0}".format(button_color))
             topcenter1.clicked.connect(self.show_tema3)
 
-            topcenter2 = QPushButton("Партнёр убеждает о сторонних устных договорённостях с Леонидом,"
+            topcenter2 = QPushButton("Партнёр убеждает о сторонних устных договорённостях с Главным Менеджером,"
                                      "\nдающих ему некоторое преимущество в спорных ситуациях"
                                      "\n(аренда/срочная отгрузка/другое).", self)
             topcenter2.setStyleSheet("background-color: {0}".format(button_color))
@@ -2082,8 +2101,8 @@ class Tema3(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -2091,7 +2110,7 @@ class Tema3(QWidget):
         self.title = 'МРТ'
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Необходимо предоставить Партнёру подобный сертификат,' \
                    '\nкоторый был составлен и выслан КП в 2018 г.' \
@@ -2133,21 +2152,22 @@ class Tema7(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
         self.setFont(QFont('Century Gothic', 10))
-        self.title = 'Кумовство'
+        self.title = 'Есть договоренность'
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Последовательность действий следующая' \
-                   '\n 1) Узнать у Леонида, правда ли это. Написать, позвонить, другим способом связаться с ним,' \
+                   '\n 1) Узнать у Главного Менеджера, правда ли это. ' \
+                   'Написать, позвонить, другим способом связаться с ним,' \
                    '\nпостараться выяснить о чём именно была договорённость.' \
-                   '\n 2) В случае, если Леонид недоступен,' \
+                   '\n 2) В случае, если Главный Менеджер недоступен,' \
                    '\nпопросить партнёра предоставить письменное подтверждение' \
                    '\nмежду руководителями о данной договоренности' \
                    '\n(что бы иметь на руках какое-то подтверждение для руководства при запросе обоснования действий).'
@@ -2188,8 +2208,8 @@ class Tema19(QWidget):
 
     def __init__(self):
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         super(QWidget, self).__init__()
 
@@ -2198,7 +2218,7 @@ class Tema19(QWidget):
         self.title = 'Реальное наличие товара'
         self.setWindowTitle(self.title)
 
-        self.setFixedSize(windowW1 * 0.46875, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.46875, window_h1 * 0.4259259259259259)
 
         self.txt = 'Последовательность действий следующая:' \
                    '\n 1) Если это небольшой кол-во продукции – можно проверить наличие на складе в Москве.' \

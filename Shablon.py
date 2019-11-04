@@ -3,13 +3,13 @@
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from PyQt5 import uic
 from PyQt5 import QtCore
 import Parameters as Parameters
 import Doca as Doca
 import SendEmail
 
 
+# окн отправки письма, идентично окну из шаблонных ответов
 class SendEmailWindow(QWidget):
 
     def __init__(self):
@@ -19,12 +19,12 @@ class SendEmailWindow(QWidget):
         self.setFont(QFont('Century Gothic', 10))
         self.setWindowTitle('Отправка письма')
 
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
 
         button_color = Parameters.Color().whatcolor()
         self.setWindowIcon(QIcon('logo.png'))
-        self.setFixedSize(windowW1 * 0.2395833333333333, windowH1 * 0.4259259259259259)
+        self.setFixedSize(window_w1 * 0.2395833333333333, window_h1 * 0.4259259259259259)
 
         log_pas = QHBoxLayout()
         btns = QHBoxLayout()
@@ -73,42 +73,46 @@ class SendEmailWindow(QWidget):
             self.close()
 
 
+# класс с файлами коммерческих предложений
 class Kom3(QWidget):
 
     def __init__(self):
 
         super(QWidget, self).__init__()
-        self.link_data = QtCore.pyqtSignal(str)
 
+        # настройки интерфейса
+        self.link_data = QtCore.pyqtSignal(str)
         self.setFont(QFont('Century Gothic', 10))
         self.setWindowIcon(QIcon('logo.png'))
         self.setWindowTitle("Коммерческое предложение")
-
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
-
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
         button_color = Parameters.Color().whatcolor()
-        self.setFixedSize(windowW1 * 0.5, windowH1 * 0.5)
+        self.setFixedSize(window_w1 * 0.5, window_h1 * 0.5)
 
+        # кнопка для первого документа
         ets1 = QPushButton('ЭТС Цемент', self)
         ets1.setStyleSheet("background-color: {0}".format(button_color))
         ets1.clicked.connect(self.ets1)
 
+        # кнопка для второго документа
         ets2 = QPushButton('ЭТС Бесцемент. с Мод. Шейкой', self)
         ets2.setStyleSheet("background-color: {0}".format(button_color))
         ets2.clicked.connect(self.ets2)
 
+        # кнопка для третьего документа
         ets3 = QPushButton('ЭТС Бесцемент. Моно.', self)
         ets3.setStyleSheet("background-color: {0}".format(button_color))
         ets3.clicked.connect(self.ets3)
 
+        # компановка кнопок в окне
         vbox = QVBoxLayout()
         vbox.addWidget(ets1)
         vbox.addWidget(ets2)
         vbox.addWidget(ets3)
         self.setLayout(vbox)
 
-
+    # далее идут функции отправки документов
     def ets1(self):
         link = 'кп_3.PDF'
         with open('link.txt', 'w') as f:
@@ -116,7 +120,6 @@ class Kom3(QWidget):
 
         self.et1 = SendEmailWindow()
         self.et1.show()
-
 
     def ets2(self):
         link = 'кп_1.PDF'
@@ -139,15 +142,14 @@ class DocWin(QWidget):
 
         super(QWidget, self).__init__()
 
+        # настрйока интерфеса окна
         self.setFont(QFont('Century Gothic', 10))
         self.setWindowIcon(QIcon('logo.png'))
         self.setWindowTitle("Одноразовый договор")
-
-        windowW1 = Parameters.ParameterSize().ww()
-        windowH1 = Parameters.ParameterSize().wh()
-
+        window_w1 = Parameters.ParameterSize().ww()
+        window_h1 = Parameters.ParameterSize().wh()
         button_color = Parameters.Color().whatcolor()
-        self.setFixedSize(windowW1 * 0.5, windowH1 * 0.5)
+        self.setFixedSize(window_w1 * 0.5, window_h1 * 0.5)
 
         hbox = QHBoxLayout()
         hbox2 = QHBoxLayout()
@@ -155,6 +157,7 @@ class DocWin(QWidget):
         hbox4 = QHBoxLayout()
         vbox = QVBoxLayout()
 
+        # поля ввода для реквизитов
         self.company_line = QLineEdit()
         self.company_line.setPlaceholderText('Представитель')
         self.dir_dol_line = QLineEdit()
@@ -183,10 +186,12 @@ class DocWin(QWidget):
         self.bank_line = QLineEdit()
         self.bank_line.setPlaceholderText('Банк')
 
+        # кнопка создания документа
         but = QPushButton("Создать документ", self)
         but.setStyleSheet("background-color: {0}".format(button_color))
         but.clicked.connect(self.ccreate)
 
+        # компановка объектов в окне
         hbox.addWidget(self.company_line)
         hbox.addWidget(self.dir_dol_line)
         hbox.addWidget(self.dir_fio_line)
@@ -213,6 +218,7 @@ class DocWin(QWidget):
 
     def ccreate(self):
 
+        # читаем данные с полей для реквизитов
         company = self.company_line.text()
         dir_dol = self.dir_dol_line.text()
         dir_fio = self.dir_fio_line.text()
@@ -226,8 +232,10 @@ class DocWin(QWidget):
         bik = self.bik_line.text()
         bank = self.bank_line.text()
 
-        if company=='' or dir_dol=='' or dir_fio=='' or tel=='' or adr=='' or email=='' or kpp=='' or r_s=='' or k_s=='' or inn=='' or bik=='' or bank=='':
-
+        # проверка на наличие всех реквизитов
+        if company == '' or dir_dol == '' or dir_fio == '' or tel == '' or adr == '' or email == '' or kpp == '' or \
+                r_s == '' or k_s == '' or inn == '' or bik == '' or bank == '':
+            # окно, оповещающее, что не все поля заполнены
             warning = QMessageBox()
             warning.setIcon(QMessageBox.Critical)
             warning.setText("Возникла ошибка создания документов"
@@ -239,6 +247,7 @@ class DocWin(QWidget):
 
             self.close()
 
+        # парсинг ФИО, ничего интересного
         fam, im, ot = list(dir_fio.split())
 
         fend = ['ев', 'ёв', 'ов', 'ин', 'он']
@@ -261,6 +270,7 @@ class DocWin(QWidget):
         im = im[0] + '.'
         ot = ot[0] + '.'
 
+        # путь, по которому сохраняется файл
         way = QFileDialog.getSaveFileName(parent=None, caption="Сохранить разовый договор",
                                           filter="Документ Word (*.docx)")
         filename = way[0]
@@ -268,7 +278,9 @@ class DocWin(QWidget):
         fam12 = fam1 + im + ot
         fam22 = fam + ' ' + im + ot
 
+        # вызываем модуль Doca.py с автозаполнением меток
         if Doca.doce(company, dir_dol, fam12, filename, inn, kpp, adr, tel, email, r_s, k_s, bank, bik, fam22) == 0:
+            # окно, оповещающее об успешном сохранении
             welldone = QMessageBox()
             welldone.setIcon(QMessageBox.Information)
             welldone.setText("Создание договора прошло успешно.")
@@ -280,6 +292,7 @@ class DocWin(QWidget):
             self.close()
 
         else:
+            # окно, оповещающее о неудачном сохранении документа
             warning = QMessageBox()
             warning.setIcon(QMessageBox.Critical)
             warning.setText("Возникла ошибка создания документа. \nПроверьте праивльность введенных вами данных.")
@@ -289,22 +302,24 @@ class DocWin(QWidget):
             rslt = warning.exec()
 
 
+# окно выбора между коммерческим предложение и одноразовым договором
 class FormWidget1(QWidget):
 
     def __init__(self, parent):
 
         super(FormWidget1, self).__init__(parent)
 
+        # настройки интерфейса окна
         self.setFont(QFont('Century Gothic', 15))
         self.setWindowIcon(QIcon('logo.png'))
         self.button_color = Parameters.Color().whatcolor()
 
         hbox = QHBoxLayout()
-
+        # кнопка для ком.предложения
         com_but = QPushButton("Коммерческое предложение", self)
         com_but.setStyleSheet("background-color: {0}".format(self.button_color))
         com_but.clicked.connect(self.three_kom)
-
+        # кнопка для договора
         doc_but = QPushButton("Одноразовый договор", self)
         doc_but.setStyleSheet("background-color: {0}".format(self.button_color))
         doc_but.clicked.connect(self.one_doc)
@@ -314,6 +329,7 @@ class FormWidget1(QWidget):
 
         self.setLayout(hbox)
 
+    # функции вызова окон для ввода реквизитов
     def one_doc(self):
 
         self.doc = DocWin()

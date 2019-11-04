@@ -4,19 +4,24 @@ from PyQt5.QtWidgets import QMessageBox
 
 def pusk_but_click(articul, number, check):
 
-    if (len(articul) == 3 or len(articul) == 7 or len(articul) == 6 or len(articul) == 12) and number != '':
-        art = ''
+    # проверка на правильность введенных данных
+    if number != '':
+
+        # если выбраны изделия
         if check == 1:
-            if len(articul) == 7:
-                art = articul[0:3]
-                print(art)
-            elif len(articul) == 12:
-                art = articul[0:7]
-            numlist, namlist, artlist = what_name2(art, int(number))
+            lens = articul.find('x')-1
+            try:
+                numlist, namlist, artlist = what_name2(articul, int(number), lens)
+            except:
+                numlist, namlist, artlist = 0, 0, 0
+
             return numlist, namlist, artlist
-        elif check == 1:
-            numlist, namlist, artlist = what_name2(articul, int(number))
+
+        # если выбраны эндопротезы
+        elif check == 0:
+            numlist, namlist, artlist = what_name(articul, int(number))
             return numlist, namlist, artlist
+
     else:
         warning2 = QMessageBox()
         warning2.setIcon(QMessageBox.Critical)
@@ -29,34 +34,41 @@ def pusk_but_click(articul, number, check):
         return rs
 
 
-
 # эндопротезы
-def what_name(articul, number):
-    return 0
-
-
-# изделия
-def what_name2(art, number):
-
+def what_name(art, number):
+    # открываем документ с данными по продукции
     exbook = load_workbook('exwork.xlsx', data_only=True)
     page = exbook.active
     indlist = []
-    for i in range(2, 1973):
-        articul2 = page.cell(row=i, column=1).value
-        if articul2[0: 3] == art:
 
-            indlist.append(i)
+    # находим нужные нам артикулы эндопротезов
+    if art == '10.016.xx':
+        for i in range(2, 1973):
+            articul2 = page.cell(row=i, column=1).value
+            if articul2[:6] == art[:6]:
+
+                indlist.append(i)
+
+    elif art == 'OM 001.02.xx':
+        for i in range(2, 1973):
+            articul2 = page.cell(row=i, column=1).value
+            if articul2[:9] == art[:9]:
+
+                indlist.append(i)
 
     namlist = []
     percentlist = []
     artlist = []
+    # заполняем массивы артикулами, названиями изделий и процентом продаж
     for i in indlist:
         namlist.append(page.cell(row=i, column=2).value)
         percentlist.append(round(page.cell(row=i, column=10).value, 2))
         artlist.append(page.cell(row=i, column=1).value)
     numlist = []
+
+    # перерасчет процентов с учетом введенного пользователем количества продукции, необходимого для закупки
     for i in percentlist:
-        numlist.append(round(i*number))
+        numlist.append(round(i * number))
     if sum(numlist) != number:
         number2 = number - sum(numlist)
         for i in range(number2):
@@ -72,17 +84,65 @@ def what_name2(art, number):
     return numlist, namlist, artlist
 
 
-def create(row, filename):
+# изделия
+def what_name2(art, number, lens):
+    # открываем документ с данными по продукции
+    exbook = load_workbook('exwork.xlsx', data_only=True)
+    page = exbook.active
+    indlist = []
 
+    # находим нужные нам артикулы изделий
+    for i in range(2, 1973):
+        articul2 = page.cell(row=i, column=1).value
+        if articul2[:lens] == art[:lens]:
+
+            indlist.append(i)
+
+    namlist = []
+    percentlist = []
+    artlist = []
+
+    # заполняем массивы артикулами, названиями изделий и процентом продаж
+    for i in indlist:
+        namlist.append(page.cell(row=i, column=2).value)
+        percentlist.append(round(page.cell(row=i, column=10).value, 2))
+        artlist.append(page.cell(row=i, column=1).value)
+
+    numlist = []
+
+    # перерасчет процентов с учетом введенного пользователем количества продукции, необходимого для закупки
+    for i in percentlist:
+        numlist.append(round(i*number))
+
+    if sum(numlist) != number:
+        number2 = number - sum(numlist)
+        for i in range(number2):
+            ind = numlist.index(min(numlist))
+            numlist[ind] += 1
+
+    if sum(numlist) >= number:
+        number2 = sum(numlist) - number
+        for i in range(number2):
+            numlist[percentlist.index(min(percentlist))] -= 1
+            percentlist[percentlist.index(min(percentlist))] = 9999
+
+    return numlist, namlist, artlist
+
+
+def create(row, filename, title):
+    # создаем новый Excel-документ
     wb = Workbook()
     ws = wb.active
-    ws.title = 'Предложение'
+    ws.title = title
 
+    # заполняем документ полученными данными
     for i in row:
         ws.append(i)
 
+    # сохраняем документ
     wb.save(filename)
 
+    # окно, оповещающее об успешном сохранении
     welldone = QMessageBox()
     welldone.setIcon(QMessageBox.Information)
     welldone.setText("Сохранение прошло успешно.")

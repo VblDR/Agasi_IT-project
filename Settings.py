@@ -4,6 +4,7 @@ import MainWindow as MainWindow
 from PyQt5.QtGui import *
 
 
+# окно настроек цвета, абсолютно бесполезно, но уже поздно убирать
 class Setting(QWidget):
 
         def __init__(self):
@@ -23,29 +24,29 @@ class Setting(QWidget):
 
             clr_choose = QLabel('Цвет:', self)
 
-            GreyButton = QPushButton('Серый', self)
-            GreyButton.clicked.connect(self.GreyFon)
+            grey_button = QPushButton('Серый', self)
+            grey_button.clicked.connect(self.GreyFon)
 
-            PinkButton = QPushButton('Розовый', self)
-            PinkButton.clicked.connect(self.PinkFon)
+            pink_button = QPushButton('Розовый', self)
+            pink_button.clicked.connect(self.PinkFon)
 
-            OliveButton = QPushButton('Оливковый', self)
-            OliveButton.clicked.connect(self.OliveFon)
+            olive_button = QPushButton('Оливковый', self)
+            olive_button.clicked.connect(self.OliveFon)
 
-            AspidBlueButton = QPushButton('Аспидно-синий', self)
-            AspidBlueButton.clicked.connect(self.AspidFon)
+            aspid_blue_button = QPushButton('Аспидно-синий', self)
+            aspid_blue_button.clicked.connect(self.AspidFon)
 
-            GreenButton = QPushButton('Темно-бирюзовый', self)
-            GreenButton.clicked.connect(self.GreenFon)
+            green_button = QPushButton('Темно-бирюзовый', self)
+            green_button.clicked.connect(self.GreenFon)
 
             vbox = QVBoxLayout()
             hbox = QHBoxLayout()
 
-            vbox.addWidget(GreyButton)
-            vbox.addWidget(PinkButton)
-            vbox.addWidget(OliveButton)
-            vbox.addWidget(AspidBlueButton)
-            vbox.addWidget(GreenButton)
+            vbox.addWidget(grey_button)
+            vbox.addWidget(pink_button)
+            vbox.addWidget(olive_button)
+            vbox.addWidget(aspid_blue_button)
+            vbox.addWidget(green_button)
 
             hbox.addWidget(clr_choose)
             hbox.addLayout(vbox)
